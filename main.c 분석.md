@@ -2,11 +2,14 @@
 ### 보면 도움이 될 수도 있음
 
 ## Buzzer
+```
 HAL_GPIO_TogglePin(buzzer_GPIO_Port, buzzer_Pin);
 	HAL_Delay(AA);
 	HAL_GPIO_TogglePin(buzzer_GPIO_Port, buzzer_Pin);
 	HAL_Delay(AA);
   ...
+
+```
 
 위와 같은 형태는, 내부 금속판을 진동시켜 음을 발생시키는 피에조 버저의 특성에 따름.
 
@@ -16,6 +19,7 @@ timer를 이용하는 방법이 있지만, 현재 prescale 및 counter peroid값
 
 
 ## DC Motor 회전 방향 제어
+```
 void smartcar_forward(void)
 {
 	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, del);
@@ -29,7 +33,7 @@ void smartcar_forward(void)
 
 
 }
-
+```
 기본적으로, gpio_write 사용 -> 이는 최대 속력으로만 회전함
 
 tim_set_compare -> del값에 따라 duty가 변화 -> 평균 전압 변경 -> 입력되는 전압에 따라 회전 속력이 달라지는 DC Motor의 속력 변경 가능
@@ -37,7 +41,7 @@ tim_set_compare -> del값에 따라 duty가 변화 -> 평균 전압 변경 -> �
 여기서, del 값은 최대 counter period값까지 가능. (현재 counter period가 25000이므로 del의 최댓값은 25000)
 
 ## PWM 제어 및 Buzzer
-
+```
 void gear_shift(void)
 {
 	if(gear == '1')
@@ -71,12 +75,14 @@ void gear_shift(void)
 		gear = 0;
 	}
 }
+```
 
 gear라는 변수에 들어오는 값에 따라, del 변경 및 Buzzer를 실행.
 
 변수를 초기화 시켜주지 않으면 계속 반복하는 문제가 발생하므로, 초기화를 시켜주는게 좋음.
 
 ##  입력 변수 분리
+```
 void commander(void)
 {
 	if(COMMAND == '0' || COMMAND == '1' || COMMAND == '2' || COMMAND == '3' || COMMAND == '4' || COMMAND == '5')
@@ -91,6 +97,7 @@ void commander(void)
 	}
 
 }
+```
 
 하나의 Bluetooth로 통신을 하기 때문에, 하나의 입력값만 받아야 원활한 동작 가능.
 
@@ -100,6 +107,7 @@ void commander(void)
 
 
 ## untrasonic distancement
+```
 void timer_start(void)
 {
    HAL_TIM_Base_Start(&htim1);
@@ -168,7 +176,7 @@ void distance(void){
 	  	  }
 
 }
-
+```
 
 timer start는 timer 작동을 위한 기본 실행 함수
 
@@ -182,6 +190,7 @@ echo는 tx에서 발진되었을 때부터, 그 초음파를 수신할 때 까�
 
 
 ## DC Motor 회전 방향 제어 조합(RC CAR 방향 제어)
+```
 void moving_car(void)
 {
 
@@ -220,6 +229,7 @@ void moving_car(void)
 	  				  HAL_Delay(70);
 	  				  }
 }
+```
 
 Delay -> 커맨드 입력 후, 최소한의 회전 시간 보장
 
@@ -227,7 +237,7 @@ Delay -> 커맨드 입력 후, 최소한의 회전 시간 보장
 
 
 # 메인 함수
-
+```
  /* USER CODE BEGIN 2 */
 
   timer_start();
@@ -263,6 +273,7 @@ Delay -> 커맨드 입력 후, 최소한의 회전 시간 보장
   }
   /* USER CODE END 3 */
 }
+```
 
 timer start, pwm start를 해야 제어 가능.
 
